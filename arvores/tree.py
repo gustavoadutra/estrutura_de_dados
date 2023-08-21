@@ -1,3 +1,7 @@
+from queue import Queue
+
+ROOT = "root"
+
 class Node:
     def __init__(self, data):
         self.data = data
@@ -62,6 +66,23 @@ class BinaryTree:
         if hright > hleft:
             return hright + 1
         return hleft + 1
+    
+    def levelorder_traversal(self, node=ROOT):
+        if node == ROOT:
+            node = self.root
+        queue = Queue()
+        queue.push(node)
+        while len(queue):
+            node = queue.pop()
+            print(node)
+            queue.push(node.left)
+            # se o valor a esquerda não for nulo
+            if node.left:
+                queue.push(node.left)
+            if node.right:
+                queue.push(node.right)
+            print(node.data, end=" ")
+
 
 class BinarySearchTree(BinaryTree):
     # faz a inserção na arvore 
@@ -104,3 +125,13 @@ class BinarySearchTree(BinaryTree):
         if value < node.data:
             return self.search(value, node.left)
         return self.search(value, node.right)
+    
+    # percurso em pós ordem mesma coisa que simétrica
+    def postorder_traversal(self, node=None):
+        if node is None:
+            node = self.root
+        if node.left:
+            self.postorder_traversal(node.left)
+        if node.right:
+            self.postorder_traversal(node.right)
+        print(node.data)
